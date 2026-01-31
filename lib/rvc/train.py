@@ -841,6 +841,7 @@ def training_runner(
                 # Generator
                 y_d_hat_r, y_d_hat_g, fmap_r, fmap_g = net_d(wave_slice, y_hat)
                 with autocast(enabled=False):
+                    y_mel = y_mel.to(y_hat_mel.device)
                     loss_mel = F.l1_loss(y_mel, y_hat_mel) * config.train.c_mel
                     loss_kl = (
                         kl_loss(z_p, logs_q, m_p, logs_p, z_mask) * config.train.c_kl

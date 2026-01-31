@@ -74,14 +74,14 @@ def run_pip(args, desc=None):
 
     index_url_line = f" --index-url {index_url}" if index_url != "" else ""
     return run(
-        f'"{python}" -m pip {args} --prefer-binary{index_url_line}',
+        f'"python3.10" -m pip {args} --prefer-binary{index_url_line}',
         desc=f"Installing {desc}",
         errdesc=f"Couldn't install {desc}",
     )
 
 
 def run_python(code, desc=None, errdesc=None):
-    return run(f'"{python}" -c "{code}"', desc, errdesc)
+    return run(f'"python3.10" -c "{code}"', desc, errdesc)
 
 
 def extract_arg(args, name):
@@ -108,20 +108,13 @@ def prepare_environment():
 
     if reinstall_torch or not is_installed("torch") or not is_installed("torchaudio"):
         run(
-            f'"{python}" -m {torch_command}',
+            f'"python3.10" -m {torch_command}',
             "Installing torch and torchaudio",
             "Couldn't install torch",
         )
 
     if not is_installed("pyngrok") and ngrok:
         run_pip("install pyngrok", "ngrok")
-
-    run(
-        f'"{python}" -m pip install -r requirements.txt',
-        desc=f"Installing requirements",
-        errdesc=f"Couldn't install requirements",
-    )
-
 
 def start():
     os.environ["PATH"] = (
@@ -130,7 +123,7 @@ def start():
         + os.environ.get("PATH", "")
     )
     subprocess.run(
-        [python, "webui.py", *sys.argv[1:]],
+        ["python3.10", "webui.py", *sys.argv[1:]],
     )
 
 
