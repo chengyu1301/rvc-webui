@@ -593,7 +593,8 @@ def training_runner(
                     "to",
                     emb_phone_size,
                 )
-            if is_multi_process:
+
+            if is_multi_process and hasattr(net_g, "module"):
                 net_g.module.load_state_dict(net_g_state)
             else:
                 net_g.load_state_dict(net_g_state)
