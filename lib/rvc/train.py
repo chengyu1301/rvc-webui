@@ -601,7 +601,7 @@ def training_runner(
 
             del net_g_state
 
-            if is_multi_process:
+            if is_multi_process and hasattr(net_d, "module"):
                 net_d.module.load_state_dict(
                     torch.load(pretrain_d, map_location="cpu")["model"]
                 )
